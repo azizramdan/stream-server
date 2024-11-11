@@ -1,0 +1,22 @@
+services:
+  nginx-rtmp:
+    image: tiangolo/nginx-rtmp
+    ports:
+      - "${RTMP_PORT}:1935"
+      - "${HTTP_PORT}:80"
+    volumes:
+      - ./nginx-rtmp/config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx-rtmp/data/hls:/var/www/html/hls
+    restart: unless-stopped
+
+  websocket:
+    build:
+      context: ./websocket
+    restart: unless-stopped
+    ports:
+      - '${WEBSOCKET_PORT}:3000'
+    working_dir: /app
+    volumes:
+      - ./websocket:/app
+    entrypoint: sh -c 'bun install && bun run start'
+
