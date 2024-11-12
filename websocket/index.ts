@@ -52,11 +52,14 @@ const server = Bun.serve<WebSocketData>({
           [
             'ffmpeg',
             '-i', 'pipe:0',
-            '-c:v', 'libx264',    // Transcode to H.264
-            '-preset', 'veryfast', // Fast encoding preset
-            '-tune', 'zerolatency', // Minimize latency
-            '-c:a', 'aac',        // AAC audio codec
-            '-ar', '44100',       // Audio sample rate
+            '-c:v', 'libx264', // Transcode to H.264
+            '-preset', 'veryfast',
+            '-tune', 'zerolatency',
+            '-g', '24',           // GOP size (24 frames = 4 seconds at 6 fps)
+            '-keyint_min', '24',  // Force minimum keyframe interval
+            '-sc_threshold', '0', // Disable scene cut detection
+            '-c:a', 'aac',
+            '-ar', '44100',
             '-f', 'flv',
             `${process.env.RTMP_ENDPOINT}/${key}`,
           ],
