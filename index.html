@@ -94,7 +94,7 @@
 
                 // Connect to WebSocket server
                 // websocket = new WebSocket(`ws://192.168.18.66:3000`);
-                websocket = new WebSocket(`ws://localhost:3000?key=${streamKey}`);
+                websocket = new WebSocket(`ws://localhost:9003?key=${streamKey}`);
                 // websocket = new WebSocket(`wss://api.data-system-integra.com/ws?key=${streamKey}`);
 
                 websocket.onopen = () => {
