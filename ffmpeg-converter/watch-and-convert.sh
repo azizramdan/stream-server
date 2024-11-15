@@ -10,7 +10,7 @@ while read path action file; do
         
         filename="${file%.*}"
         
-        ffmpeg -i "$WATCH_DIR/$file" -c copy "$WATCH_DIR/$filename.mp4"
+        ffmpeg -y -i "$WATCH_DIR/$file" -c copy "$WATCH_DIR/$filename.mp4"
         
         rm "$WATCH_DIR/$file"
         
