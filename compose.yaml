@@ -32,6 +32,16 @@ services:
     restart: unless-stopped
     entrypoint: sh -c 'chmod +x /watch.sh && /watch.sh'
 
+  dashcam-record-notify:
+    image: oven/bun:1
+    user: bun
+    working_dir: /app
+    volumes:
+      - ./dashcam-record-notify:/app
+      - ./nginx-rtmp/data/recordings/dashcam:/data/recordings/dashcam:ro
+    restart: unless-stopped
+    entrypoint: sh -c 'bun install && bun run start'
+
   websocket:
     build:
       context: ./websocket
