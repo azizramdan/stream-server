@@ -31,7 +31,7 @@ services:
     entrypoint: sh -c 'chmod +x /watch.sh && /watch.sh'
 
   dashcam-record-notify:
-    image: oven/bun:1
+    image: oven/bun:1-alpine
     user: bun
     working_dir: /app
     volumes:
