@@ -6,7 +6,7 @@ services:
       - "${HTTP_PORT}:80"
     volumes:
       - ./nginx-rtmp/config/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx-rtmp/data/hls/cam:/data/hls/cam
+      - ./nginx-rtmp/data/hls/dashcam:/data/hls/dashcam
       - ./nginx-rtmp/data/hls/live:/data/hls/live
       - ./nginx-rtmp/data/recordings:/data/recordings
     restart: unless-stopped
@@ -20,6 +20,17 @@ services:
       - ./ffmpeg-converter/watch-and-convert.sh:/watch-and-convert.sh
     restart: unless-stopped
     entrypoint: sh -c 'chmod +x /watch-and-convert.sh && /watch-and-convert.sh'
+
+  dashcam-record:
+    build:
+      context: ./dashcam-record
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx-rtmp/data/recordings:/data/recordings
+      - ./nginx-rtmp/data/hls/dashcam:/data/hls/dashcam:ro
+      - ./dashcam-record/watch.sh:/watch.sh
+    restart: unless-stopped
+    entrypoint: sh -c 'chmod +x /watch.sh && /watch.sh'
 
   websocket:
     build:
