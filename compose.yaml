@@ -7,7 +7,6 @@ services:
     volumes:
       - ./nginx-rtmp/config/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx-rtmp/data/hls/dashcam:/data/hls/dashcam
-      - ./nginx-rtmp/data/hls/live:/data/hls/live
       - ./nginx-rtmp/data/recordings:/data/recordings
     restart: unless-stopped
 
@@ -15,8 +14,8 @@ services:
     build:
       context: ./live-record
     volumes:
-      - ./nginx-rtmp/data/recordings:/data/recordings
-      - ./live-record/convert.sh:/convert.sh
+      - ./nginx-rtmp/data/recordings/live:/data/recordings/live
+      - ./live-record/convert.sh:/convert.sh:ro
     restart: unless-stopped
     entrypoint: sh -c 'chmod +x /convert.sh && /convert.sh'
 
@@ -24,9 +23,9 @@ services:
     build:
       context: ./dashcam-record
     volumes:
-      - ./nginx-rtmp/data/recordings:/data/recordings
+      - ./nginx-rtmp/data/recordings/dashcam:/data/recordings/dashcam
       - ./nginx-rtmp/data/hls/dashcam:/data/hls/dashcam:ro
-      - ./dashcam-record/watch.sh:/watch.sh
+      - ./dashcam-record/watch.sh:/watch.sh:ro
     restart: unless-stopped
     entrypoint: sh -c 'chmod +x /watch.sh && /watch.sh'
 
