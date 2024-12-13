@@ -11,20 +11,18 @@ services:
       - ./nginx-rtmp/data/recordings:/data/recordings
     restart: unless-stopped
 
-  ffmpeg-converter:
+  live-record:
     build:
-      context: ./ffmpeg-converter
-      dockerfile: Dockerfile
+      context: ./live-record
     volumes:
       - ./nginx-rtmp/data/recordings:/data/recordings
-      - ./ffmpeg-converter/watch-and-convert.sh:/watch-and-convert.sh
+      - ./live-record/convert.sh:/convert.sh
     restart: unless-stopped
-    entrypoint: sh -c 'chmod +x /watch-and-convert.sh && /watch-and-convert.sh'
+    entrypoint: sh -c 'chmod +x /convert.sh && /convert.sh'
 
   dashcam-record:
     build:
       context: ./dashcam-record
-      dockerfile: Dockerfile
     volumes:
       - ./nginx-rtmp/data/recordings:/data/recordings
       - ./nginx-rtmp/data/hls/dashcam:/data/hls/dashcam:ro

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WATCH_DIR="/data/recordings"
+WATCH_DIR="/data/recordings/live"
 mkdir -p "$WATCH_DIR"
 
 inotifywait -m "$WATCH_DIR" -e close_write |
