@@ -19,7 +19,8 @@ const WATCH_DIR = '/data/recordings/dashcam';
             const stats = await stat(fullPath)
 
             if (stats.isFile()) {
-              sendToApi(fullPath)
+              await new Promise(resolve => setTimeout(resolve, 1000 * 60)) // wait 1 minute because video segment is not fully written yet, video segment is 1 minute long
+              await sendToApi(fullPath)
             }
           } catch (error) {
             // do nothing
